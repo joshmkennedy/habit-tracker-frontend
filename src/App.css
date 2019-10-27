@@ -1,22 +1,145 @@
-.App {
-  text-align: center;
+/**/
+/*?APP STYLES */
+/***/
+
+:root {
+  --main-color: #010c2c;
+  --space-gray: #484b5e;
+  --error-color: #ee6161;
+  --bg: #f9f9f9;
+  --body-max-width: 1100px;
+  --shadow-input: 0 2px 8px rgb(0, 0, 0, 0.19);
+  --shadow-input--focus: 0 2px 14px rgb(0, 0, 0, 0.19);
+  --shadow-small: 0 2px 5px rgb(0, 0, 0, 0.1);
+  --shadow-medium: 0 50px 100px rgba(50, 50, 93, 0.07),
+    0 15px 35px rgba(50, 50, 93, 0.09), 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.App-logo {
-  height: 40vmin;
+body {
+  overflow-x: hidden;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 100;
+}
+body *,
+body *:after,
+body *:before {
+  box-sizing: inherit;
+  position: relative;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--main-color);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+input,
+button,
+textarea {
+  border: none;
+  box-shadow: var(--shadow-input);
+}
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: var(--shadow-input--focus);
+}
+input:focus {
+  background: var(--bg);
+}
+button {
+  background: var(--main-color);
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.25px;
+  font-weight: 700;
+}
+input {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.wrapper {
+  width: 100%;
+  padding: 10px 20px;
+}
+.container {
+  max-width: var(--body-max-width);
+  margin: 0 auto;
+}
+
+.error {
+  color: var(--error-color);
+}
+h2.error {
+  margin-bottom: 10px;
+}
+h2.error + p {
+  margin-top: 10px;
+}
+
+/**/
+/*? HEADER */
+/***/
+
+.header__container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.app-header .logo {
+  text-decoration: none;
+}
+.logo h1 {
+  color: var(--space-gray);
 }
 
-.App-link {
-  color: #09d3ac;
+.app-header h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+.app-header nav {
+  margin-left: 30px;
+}
+.app-header nav a {
+  color: var(--space-gray);
+  text-decoration: none;
+}
+
+/**/
+/*? LOGIN */
+/***/
+.login__wrapper {
+  height: calc(100vh - 48px);
+}
+.login__card {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10vh;
+  background: #ffffff;
+  padding: 20px;
+  width: 290px;
+  padding-bottom: 30px;
+  box-shadow: var(--shadow-medium);
+}
+
+.login__card button {
+  width: 100%;
 }
