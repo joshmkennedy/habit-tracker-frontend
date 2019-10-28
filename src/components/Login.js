@@ -49,7 +49,8 @@ const Login = ({ loggedIn }) => {
             <p>retry entering in your password</p>
           </>
         ) : error ? (
-          error.message == "GraphQL error: No data returned from the query." ? (
+          error.message ===
+          "GraphQL error: No data returned from the query." ? (
             <>
               <h2 className='error'>No User Found.</h2>
               <p>Check your email</p>

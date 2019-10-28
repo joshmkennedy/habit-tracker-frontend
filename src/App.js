@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Router, Link, Redirect } from "@reach/router";
+import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Login from "./components/Login";
-import HabitDetails from "./components/HabitDetails";
+import UpdateHabitDetails from "./components/UpdateHabitDetails";
 import Dash from "./components/Dash";
 import "./App.css";
-import gql from "graphql-tag";
+import NewHabit from "./components/NewHabit";
 
 const ME_QUERY = gql`
   {
@@ -59,7 +60,8 @@ function App() {
       <Router>
         <Login path='/' />
         <Dash path='/dashboard'>
-          <HabitDetails path='habits/:habit_id' />
+          <NewHabit path='/new' />
+          <UpdateHabitDetails path='/:habit_id' />
         </Dash>
       </Router>
     </>

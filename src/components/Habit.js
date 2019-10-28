@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+import { navigate } from "@reach/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
+
 import gql from "graphql-tag";
 import { ME_QUERY } from "../App";
 import { isCompletedToday } from "./Dash";
@@ -72,41 +74,9 @@ const Habit = ({
   //* UPDATE THE HABIT
   const [isBeingEdited, setIsBeingEdited] = useState(false);
   const [newHabitName, setNewHabitName] = useState(name);
-  const [updateHabit] = useMutation(UPDATE_HABIT_MUTATION, {
-    variables: {
-      habit_id: id,
-      habit_name: newHabitName,
-    },
-    update(cache, payload) {
-      const data = cache.readQuery({ query: ME_QUERY });
-      const removeOldData = data.Me.habits.filter(
-        ({ habit_id }) => habit_id !== payload.data.UpdateHabit.habit_id
-      );
-      const newData = [...removeOldData, payload.data.UpdateHabit];
 
-      data.Me.habits = newData;
-      cache.writeQuery({
-        query: ME_QUERY,
-        data,
-      });
-    },
-    optimisticResponse: {
-      __typename: "Mutation",
-      UpdateHabit: {
-        __typename: Habit,
-        habit_id: id,
-        habit_name: newHabitName,
-        habit_created_at,
-        times_completed,
-      },
-    },
-  });
   const handleSetIsBeingEdited = () => {
     setIsBeingEdited(!isBeingEdited);
-  };
-  const handleUpdateHabit = () => {
-    updateHabit();
-    setIsBeingEdited(false);
   };
 
   //* IS THE HABIT COMPLETED
@@ -154,26 +124,22 @@ const Habit = ({
         borderLeft: isCompleted ? "3px solid green" : "3px solid red",
       }}
     >
-      <button onClick={handleCompleteHabit}>✅</button>
-      <h4>{name}</h4>
-      <button onClick={deleteHabit}>❌ DELETE</button>
-      <div>
-        {
-          <button onClick={handleSetIsBeingEdited}>
-            {!isBeingEdited ? <span>✏️ EDIT</span> : <span>❌ DONE</span>}
-          </button>
-        }
-        {isBeingEdited && (
-          <span>
-            <input
-              type='text'
-              value={newHabitName}
-              onChange={e => setNewHabitName(e.target.value)}
-            />
-            <button onClick={handleUpdateHabit}> ✔️ Save</button>
-          </span>
-        )}
-      </div>
+      <button onClick={handleCompleteHabit}>
+        <span role='img' aria-label='check'>
+          ✅
+        </span>
+      </button>
+      <button
+        onClick={() => navigate(`/dashboard/${id}`)}
+        style={{ background: "transparent" }}
+      >
+        <h4>{name}</h4>
+      </button>
+      <button onClick={deleteHabit}>
+        <span role='img' aria-label='check'>
+          ❌ DELETE
+        </span>
+      </button>
     </li>
   );
 };

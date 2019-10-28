@@ -1,23 +1,10 @@
 import React, { useState } from "react";
 
+import { navigate } from "@reach/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 
 import { ME_QUERY } from "../App";
 import Habit from "./Habit";
-
-const NEW_HABIT_MUTATION = gql`
-  mutation NEW_HABIT_MUTATION($habit_name: String!) {
-    CreateHabit(habit_name: $habit_name) {
-      habit_id
-      habit_name
-      habit_created_at
-      times_completed {
-        time
-      }
-    }
-  }
-`;
 
 export const isCompletedToday = timeStamp => {
   const dateCompletedLast = new Date(timeStamp);
@@ -34,27 +21,12 @@ export const isCompletedToday = timeStamp => {
 
 const Dash = ({ children }) => {
   const user = useQuery(ME_QUERY);
-  const [newHabitInput, setNewHabitInput] = useState("");
-
-  const [addNewHabit, { newHabit }] = useMutation(NEW_HABIT_MUTATION, {
-    variables: {
-      habit_name: newHabitInput,
-    },
-    update(cache, payload) {
-      const data = cache.readQuery({ query: ME_QUERY });
-      const { habits } = data.Me;
-      const newHabit = payload.data.CreateHabit;
-      const newHabitList = [...habits, newHabit];
-      data.Me.habits = newHabitList;
-      cache.writeQuery({ query: ME_QUERY, data });
-    },
-  });
 
   return (
     <div className='wrapper'>
       <div className='container'>
         <h2>your habits</h2>
-
+        <button onClick={() => navigate("/dashboard/new")}>new*</button>
         <ul>
           {user.loading && <p>loading...</p>}
           {user.data &&
