@@ -1,3 +1,6 @@
+///!deprecated dont use
+//?just use habit details with habit_id === undefined by setting the path to new
+
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -69,6 +72,9 @@ const NewHabit = () => {
 
   return (
     <div className='habit-single__details'>
+      {console.log(
+        "deprecated dont use just use habit details with habit_id === undefined by setting the path to new"
+      )}
       <Link className='habit-details__close' to='/dashboard'>
         close
       </Link>
