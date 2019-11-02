@@ -125,7 +125,8 @@ const HabitDetails = ({ habit_id }) => {
     },
   });
 
-  const handleUpdateHabit = () => {
+  const handleUpdateHabit = e => {
+    e.preventDefault();
     updateHabit();
   };
 
@@ -159,9 +160,13 @@ const HabitDetails = ({ habit_id }) => {
       navigate(`/dashboard/${data.CreateHabit.habit_id}`);
     },
   });
+  const handleNewHabit = e => {
+    e.preventDefault();
+    addNewHabit();
+  };
 
   return (
-    <div className='habit-single__details'>
+    <form className='habit-single__details'>
       <Link className='habit-details__close' to='/dashboard'>
         <Icon name='close' color='#484b5e' />
       </Link>
@@ -179,12 +184,13 @@ const HabitDetails = ({ habit_id }) => {
           setHabitDetails={setHabitDetails}
         />
         <button
-          onClick={habit_id === undefined ? addNewHabit : handleUpdateHabit}
+          type='submit'
+          onClick={habit_id === undefined ? handleNewHabit : handleUpdateHabit}
         >
           Save
         </button>
       </span>
-    </div>
+    </form>
   );
 };
 
