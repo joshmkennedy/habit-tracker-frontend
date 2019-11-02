@@ -3,7 +3,7 @@ import { Router, Link, Redirect } from "@reach/router";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Login from "./components/Login";
-import UpdateHabitDetails from "./components/UpdateHabitDetails";
+import HabitDetails from "./components/HabitDetails";
 import Dash from "./components/Dash";
 import "./App.scss";
 import NewHabit from "./components/NewHabit";
@@ -62,8 +62,8 @@ function App() {
       <Router>
         <Login path='/' />
         <Dash path='/dashboard'>
-          <NewHabit path='/new' />
-          <UpdateHabitDetails path='/:habit_id' />
+          <HabitDetails path='/new' />
+          <HabitDetails path='/:habit_id' />
         </Dash>
       </Router>
     </>
