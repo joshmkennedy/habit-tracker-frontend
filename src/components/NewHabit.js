@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { navigate, Link } from "@reach/router";
 
 import { ME_QUERY } from "../App";
+import HabitAdditionalSettings from "./HabitAdditionalSettings";
 
 const NEW_HABIT_MUTATION = gql`
-  mutation NEW_HABIT_MUTATION($habit_name: String!) {
-    CreateHabit(habit_name: $habit_name) {
+  mutation NEW_HABIT_MUTATION(
+    $habit_name: String!
+    $habit_should_remind: Boolean!
+    $habit_reoccur_time: String!
+  ) {
+    CreateHabit(
+      habit_name: $habit_name
+      habit_should_remind: $habit_should_remind
+      habit_reoccur_time: $habit_reoccur_time
+    ) {
       habit_id
       habit_name
-      habit_created_at
-      times_completed {
-        time
-      }
-    }
-  }
-`;
-const UPDATE_HABIT_MUTATION = gql`
-  mutation UPDATE_HABIT_MUTATION($habit_id: ID!, $habit_name: String!) {
-    UpdateHabit(habit_id: $habit_id, habit_name: $habit_name) {
-      habit_id
-      habit_name
+      habit_should_remind
+      habit_reoccur_time
       habit_created_at
       times_completed {
         time
@@ -30,11 +30,17 @@ const UPDATE_HABIT_MUTATION = gql`
 `;
 
 const NewHabit = () => {
-  const [habitInput, setHabitInput] = useState("");
+  const [habitDetails, setHabitDetails] = useState({
+    habit_name: "",
+    habit_should_remind: false,
+    habit_reoccur_time: "daily",
+  });
 
   const [addNewHabit, { newHabit }] = useMutation(NEW_HABIT_MUTATION, {
     variables: {
-      habit_name: habitInput,
+      habit_name: habitDetails.habit_name,
+      habit_should_remind: habitDetails.habit_should_remind,
+      habit_reoccur_time: habitDetails.habit_reoccur_time,
     },
     update(cache, payload) {
       const data = cache.readQuery({ query: ME_QUERY });
@@ -49,33 +55,48 @@ const NewHabit = () => {
       CreateHabit: {
         __typename: "Habit",
         habit_id: 0,
-        habit_name: habitInput,
+        habit_name: habitDetails.habit_name,
         habit_created_at: new Date(),
         times_completed: [],
+        habit_reoccur_time: "weekly",
+        habit_should_remind: false,
       },
+    },
+    onCompleted(data) {
+      navigate(`/dashboard/${data.CreateHabit.habit_id}`);
     },
   });
 
   return (
-    <>
-      <h2>Creating new Habit</h2>
+    <div className='habit-single__details'>
+      <Link className='habit-details__close' to='/dashboard'>
+        close
+      </Link>
+      <h2>Creating A New Habit</h2>
       <div>
-        <input
-          type='text'
-          name='habit_name'
-          value={habitInput}
-          onChange={e => setHabitInput(e.target.value)}
+        <span className='habit-details__name'>
+          <input
+            type='text'
+            name='habit_name'
+            value={habitDetails.habit_name}
+            onChange={e =>
+              setHabitDetails({ ...habitDetails, habit_name: e.target.value })
+            }
+          />
+        </span>
+        <HabitAdditionalSettings
+          habitDetails={habitDetails}
+          setHabitDetails={setHabitDetails}
         />
         <button
           onClick={() => {
             addNewHabit();
-            setHabitInput("");
           }}
         >
-          submit
+          save
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { Link } from "@reach/router";
 
 import { ME_QUERY } from "../App";
+import HabitAdditionalSettings from "./HabitAdditionalSettings";
+import Icon from "./Icon";
 
 const UPDATE_HABIT_MUTATION = gql`
-  mutation UPDATE_HABIT_MUTATION($habit_id: ID!, $habit_name: String!) {
-    UpdateHabit(habit_id: $habit_id, habit_name: $habit_name) {
+  mutation UPDATE_HABIT_MUTATION(
+    $habit_id: ID!
+    $habit_name: String!
+    $habit_should_remind: Boolean
+    $habit_reoccur_time: String!
+  ) {
+    UpdateHabit(
+      habit_id: $habit_id
+      habit_name: $habit_name
+      habit_should_remind: $habit_should_remind
+      habit_reoccur_time: $habit_reoccur_time
+    ) {
       habit_id
       habit_name
+      habit_should_remind
+      habit_reoccur_time
       habit_created_at
       times_completed {
         time
@@ -18,13 +33,33 @@ const UPDATE_HABIT_MUTATION = gql`
 `;
 
 const UpdateHabitDetails = ({ habit_id }) => {
-  const [habitInput, setHabitInput] = useState("");
   const { data } = useQuery(ME_QUERY);
+  const [habitDetails, setHabitDetails] = useState({
+    habit_name: "",
+    habit_should_remind: false,
+    habit_reoccur_time: "daily",
+  });
+  useEffect(() => {
+    data &&
+      data.Me.habits.find(habit => habit.habit_id === habit_id) &&
+      setHabitDetails({
+        habit_name: data.Me.habits.find(habit => habit.habit_id === habit_id)
+          .habit_name,
+        habit_should_remind: data.Me.habits.find(
+          habit => habit.habit_id === habit_id
+        ).habit_should_remind,
+        habit_reoccur_time: data.Me.habits.find(
+          habit => habit.habit_id === habit_id
+        ).habit_reoccur_time,
+      });
+  }, [habit_id, data]);
 
   const [updateHabit] = useMutation(UPDATE_HABIT_MUTATION, {
     variables: {
       habit_id: habit_id,
-      habit_name: habitInput,
+      habit_name: habitDetails.habit_name,
+      habit_should_remind: habitDetails.habit_should_remind,
+      habit_reoccur_time: habitDetails.habit_reoccur_time,
     },
     update(cache, payload) {
       const data = cache.readQuery({ query: ME_QUERY });
@@ -44,13 +79,15 @@ const UpdateHabitDetails = ({ habit_id }) => {
       UpdateHabit: {
         __typename: "Habit",
         habit_id: habit_id,
-        habit_name: habitInput,
+        habit_name: habitDetails.habit_name,
         times_completed: data
-          ? data.Me.habits.filter(habit => habit.habit_id === habit_id)[0]
+          ? data.Me.habits.filter(habit => habit.habit_id === habit_id)[0] &&
+            data.Me.habits.filter(habit => habit.habit_id === habit_id)[0]
               .times_completed
           : null,
         habit_created_at:
           data &&
+          data.Me.habits.filter(habit => habit.habit_id === habit_id)[0] &&
           data.Me.habits.filter(habit => habit.habit_id === habit_id)[0]
             .habit_created_at,
       },
@@ -58,18 +95,27 @@ const UpdateHabitDetails = ({ habit_id }) => {
   });
 
   const handleUpdateHabit = () => {
+    console.log(habitDetails);
     updateHabit();
-    //setIsBeingEdited(false);
   };
 
   return (
-    <div>
-      Updating old Habit
-      <span>
+    <div className='habit-single__details'>
+      <Link className='habit-details__close' to='/dashboard'>
+        <Icon name='close' color='#484b5e' />
+      </Link>
+      <h3>Updating old Habit</h3>
+      <span className='habit-details__name'>
         <input
           type='text'
-          value={habitInput}
-          onChange={e => setHabitInput(e.target.value)}
+          value={habitDetails.habit_name}
+          onChange={e =>
+            setHabitDetails({ ...habitDetails, habit_name: e.target.value })
+          }
+        />
+        <HabitAdditionalSettings
+          habitDetails={habitDetails}
+          setHabitDetails={setHabitDetails}
         />
         <button onClick={handleUpdateHabit}> Save</button>
       </span>

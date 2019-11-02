@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Login from "./components/Login";
 import UpdateHabitDetails from "./components/UpdateHabitDetails";
 import Dash from "./components/Dash";
-import "./App.css";
+import "./App.scss";
 import NewHabit from "./components/NewHabit";
 
 const ME_QUERY = gql`
@@ -17,6 +17,8 @@ const ME_QUERY = gql`
         habit_id
         habit_name
         habit_created_at
+        habit_should_remind
+        habit_reoccur_time
         times_completed {
           time
         }

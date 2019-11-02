@@ -1,0 +1,313 @@
+/**/
+/*?APP STYLES */
+/***/
+
+:root {
+  --main-color: #010c2c;
+  --space-gray: #484b5e;
+  --error-color: #ee6161;
+  --bg: #f9f9f9;
+  --body-max-width: 1100px;
+  --shadow-input: 0 2px 8px rgb(0, 0, 0, 0.19);
+  --shadow-input--focus: 0 2px 14px rgb(0, 0, 0, 0.19);
+  --shadow-small: 0 2px 5px rgb(0, 0, 0, 0.1);
+  --shadow-medium: 0 50px 100px rgba(50, 50, 93, 0.07),
+    0 15px 35px rgba(50, 50, 93, 0.09), 0 5px 15px rgba(0, 0, 0, 0.05);
+  --shadow-large: 0 50px 100px rgba(50, 50, 93, 0.17),
+    0 15px 35px rgba(50, 50, 93, 0.19), 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 100;
+}
+body *,
+body *:after,
+body *:before {
+  box-sizing: inherit;
+  position: relative;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--main-color);
+}
+
+input,
+button,
+textarea {
+  border: none;
+  box-shadow: var(--shadow-input);
+}
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: var(--shadow-input--focus);
+}
+input:focus {
+  background: var(--bg);
+}
+button {
+  background: var(--main-color);
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.25px;
+  font-weight: 700;
+}
+input {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+.wrapper {
+  width: 100%;
+  padding: 10px 20px;
+}
+.container {
+  max-width: var(--body-max-width);
+  margin: 0 auto;
+}
+
+.error {
+  color: var(--error-color);
+}
+h2.error {
+  margin-bottom: 10px;
+}
+h2.error + p {
+  margin-top: 10px;
+}
+
+/**/
+/*? HEADER */
+/***/
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.app-header .logo {
+  text-decoration: none;
+}
+.logo h1 {
+  color: var(--space-gray);
+}
+
+.app-header h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+.app-header nav {
+  margin-left: 30px;
+}
+.app-header nav a {
+  color: var(--space-gray);
+  text-decoration: none;
+}
+
+/**/
+/*? LOGIN */
+/***/
+.login__wrapper {
+  height: calc(100vh - 48px);
+}
+.login__card {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10vh;
+  background: #ffffff;
+  padding: 20px;
+  width: 290px;
+  padding-bottom: 30px;
+  box-shadow: var(--shadow-medium);
+}
+
+.login__card button {
+  width: 100%;
+}
+
+//--/--/--/--/--/--/--/--/--/--/--//
+//?habit dashboard layout
+//--/--/--/--/--/--/--/--/--/--/--//
+.habit-list__container {
+  display: flex;
+  height: calc(100vh - 200px);
+  > div {
+    width: 100%;
+  }
+
+  //habit details pane
+  .habit-single__details {
+    margin-top: 50px;
+    margin-left: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: var(--shadow-small);
+    label {
+      display: block;
+      margin-bottom: 20px;
+      input,
+      select {
+        display: block;
+      }
+
+      input[type="checkbox"] {
+        box-shadow: none;
+      }
+    }
+  }
+}
+//add new habit button
+.new-habit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  box-shadow: var(--shadow-large);
+  border-radius: 50%;
+  z-index: 9999;
+  span {
+    pointer-events: none;
+    position: absolute;
+    top: 20%;
+    left: 32%;
+    font-size: 30px;
+    line-height: 1;
+  }
+}
+//--/--/--/--/--/--/--/--/--/--/--//
+//?Habit List
+//--/--/--/--/--/--/--/--/--/--/--//
+.habit-list__list {
+  box-shadow: var(--shadow-small);
+  margin-bottom: 20px;
+  overflow: hidden;
+  //Done Items
+  &.habit-list__list--done {
+    margin-bottom: 100px;
+    opacity: 0.65;
+  }
+}
+
+//--/--/--/--/--/--/--/--/--/--/--//
+//?Habit Single
+//--/--/--/--/--/--/--/--/--/--/--//
+.habit-single {
+  background: #fff;
+  &:nth-child(even) {
+    background: #f5f5f8;
+  }
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  &:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  button {
+    padding: 14px 8px;
+    box-shadow: none;
+    background: transparent;
+  }
+  .habit-single__name {
+    width: 100%;
+    text-align: left;
+  }
+}
+//text style
+.habit-single__name span {
+  color: var(--main-color);
+  text-transform: capitalize;
+  letter-spacing: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+//--/--/--/--/--/--/--/--/--/--/--//
+//?Habit Details form
+//--/--/--/--/--/--/--/--/--/--/--//
+.habit-details__close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  text-decoration: none !important;
+  color: #010c2c;
+}
+.habit-single__details {
+  .habit-details__name input {
+    padding: 14px 8px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+//options list
+.options {
+  padding: 0;
+  margin: 0;
+}
+.options-icon-wrapper {
+  width: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.options-list {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  li {
+    margin-bottom: 0;
+    height: 100%;
+    button {
+      height: 100%;
+    }
+    list-style: none;
+  }
+  li.edit {
+    button {
+      background: blue;
+    }
+  }
+  li.delete {
+    button {
+      background: var(--error-color);
+    }
+  }
+  li.complete {
+    button {
+      background: green;
+    }
+  }
+
+  .checkmark {
+    width: 15px;
+  }
+}
