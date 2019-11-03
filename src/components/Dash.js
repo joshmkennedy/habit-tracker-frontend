@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSpring, animated, interpolate } from "react-spring";
-import { useDrag } from "react-use-gesture";
+import React, { useState } from "react";
+
 import { navigate } from "@reach/router";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
 import { ME_QUERY } from "../App";
-import Habit from "./Habit";
+
 import HabitList from "./HabitList";
 export const isCompletedToday = timeStamp => {
   const dateCompletedLast = new Date(timeStamp);

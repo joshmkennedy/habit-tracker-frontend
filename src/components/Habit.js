@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSpring, animated, interpolate, useTransition } from "react-spring";
+import { useSpring, animated, useTransition } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { navigate } from "@reach/router";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import { ME_QUERY } from "../App";
@@ -60,11 +60,6 @@ const Habit = ({
     },
   });
 
-  //* IS THE HABIT COMPLETED
-  const [isCompleted, setIsCompleted] = useState(false);
-  useEffect(() => {
-    setIsCompleted(isCompletedToday(completed_last));
-  }, [completed_last]);
   //* COMPLETE THE HABIT
   const [isShowingOptions, setIsShowingOptions] = useState(false);
   const [completeAHabit] = useMutation(COMPLETE_HABIT_MUTATION, {
