@@ -1,8 +1,13 @@
+/* 
+how to send a
+
+*/
+
 import React from "react";
 import Habit from "./Habit";
 import isCompletedToday from "./Dash";
 
-const HabitList = ({ showDone, habits, loading }) => {
+const HabitList = ({ showDone, habits, loading, filterFn }) => {
   return (
     <ul
       className={`habit-list__list habit-list__list--${
@@ -13,16 +18,7 @@ const HabitList = ({ showDone, habits, loading }) => {
       {habits &&
         habits
           .filter(habit => {
-            if (showDone) {
-              return habit.times_completed[0]
-                ? isCompletedToday(parseInt(habit.times_completed[0].time)) //returns done habits
-                : false;
-            } else {
-              console.log(showDone);
-              return habit.times_completed[0]
-                ? !isCompletedToday(parseInt(habit.times_completed[0].time)) //returns undone habits
-                : true;
-            }
+            return filterFn(habit);
 
             //if there are times completed check to see if they are today if so ignore
             // if there are no times include
