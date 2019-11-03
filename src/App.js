@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router, Link } from "@reach/router";
+import { Router, Link, navigate } from "@reach/router";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Login from "./components/Login";
@@ -27,15 +27,18 @@ const ME_QUERY = gql`
 `;
 
 function App() {
-  const { data, loading, error } = useQuery(ME_QUERY);
-  const token = localStorage.getItem("token");
+  const { data, error } = useQuery(ME_QUERY);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     if (data) {
       setIsLoggedIn(true);
     }
   }, [data]);
-
+  if (error) {
+    localStorage.removeItem("token");
+    navigate("/");
+  }
   return (
     <>
       <header className='app-header wrapper'>
