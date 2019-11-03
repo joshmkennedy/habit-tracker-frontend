@@ -42,19 +42,81 @@ const Icon = ({ name, color }) => {
           className='checkmark'
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 52 52'
+          stroke-width='3 '
         >
           <circle
             className='checkmark__circle'
             cx='26'
             cy='26'
             r='25'
-            fill={color}
+            fill='none'
+            stroke={color}
           />
           <path
             className='checkmark__check'
             fill='none'
-            stroke='white'
+            stroke={color}
             d='M14.1 27.2l7.1 7.2 16.7-16.8'
+          />
+        </svg>
+      );
+    case "edit":
+      return (
+        <svg
+          x='0px'
+          y='0px'
+          viewBox='0 0 709.1 709.1'
+          width='24px'
+          fill={color}
+        >
+          <g id='pencil'>
+            <g id='pencil-2'>
+              <path
+                d='M502.4,191.4L488,214l-1-0.8L278.2,510.9l-65.6,46.3l18.8-77l214.3-302.9l0.3,0.2l6.1-9.2l7.8-11
+			c8.2-11.5,24.2-14.3,35.7-6.1C508.5,160.4,511.6,178.4,502.4,191.4z'
+              />
+            </g>
+          </g>
+          <g id='Layer_3'>
+            <circle
+              fill='none'
+              stroke={color}
+              stroke-width='40'
+              stroke-miterlimit='10'
+              cx='354.5'
+              cy='354.5'
+              r='342'
+            />
+          </g>
+        </svg>
+      );
+    case "delete":
+      return (
+        <svg
+          className='checkmark'
+          xmlns='http://www.w3.org/2000/svg'
+          viewBox='0 0 52 52'
+          stroke-width='3 '
+        >
+          <circle
+            className='checkmark__circle'
+            cx='26'
+            cy='26'
+            r='25'
+            fill='none'
+            stroke={color}
+          />
+          <path
+            className='checkmark__check'
+            fill='none'
+            stroke={color}
+            d='M14 14 L38 38'
+          />
+          <path
+            className='checkmark__check'
+            fill='none'
+            stroke={color}
+            d='M14 38 L38 14'
           />
         </svg>
       );

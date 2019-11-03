@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSpring, animated, interpolate } from "react-spring";
+import { useSpring, animated, interpolate, useTransition } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { navigate } from "@reach/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -105,68 +105,78 @@ const Habit = ({
   // 1. Define the gesture
   const bind = useDrag(({ down, movement: [mx, my] }) => {
     set({
-      x: down ? mx : 0,
+      x: down && mx > 0 ? mx : 0,
     });
 
-    if (mx >= 100 && !down) {
+    if (mx >= 150 && !down) {
       set({ x: 0 });
       return handleCompleteHabit();
     }
   });
-  function handleDeleteHabit() {}
+
+  const slide = useTransition(isShowingOptions, null, {
+    from: { transform: "translateX(100%)" },
+    enter: { transform: "translateX(0%)" },
+    leave: { transform: "translateX(100%)" },
+  });
 
   return (
     <animated.li
       {...bind()}
       style={{
         background: x.interpolate({
-          range: [0, 100],
+          range: [0, 150],
           output: ["white", "green"],
           extrapolate: "clamp",
         }),
       }}
     >
+      {<span className='habit-single__bg-text'>complete</span>}
       <animated.div {...bind()} style={{ left: x }} className='habit-single'>
-        <button
+        <span
           className='habit-single__name'
-          onClick={() => navigate(`/dashboard/${id}`)}
           style={{ background: "transparent" }}
         >
           <span className='habit-single__name'>{name}</span>
-        </button>
+        </span>
         <div
           className='options'
           onMouseEnter={() => setIsShowingOptions(true)}
           onMouseLeave={() => setIsShowingOptions(false)}
+          /* onTouchStart={() => setIsShowingOptions(true)}
+          onTouchEnd={() => setIsShowingOptions(false)} */
         >
           {!isShowingOptions && (
             <span className='options-icon-wrapper'>
               <Icon color='#000' name='options' />
             </span>
           )}
-          {isShowingOptions && (
-            <ul className='options-list'>
-              <li className='complete'>
-                <button onClick={handleCompleteHabit}>
-                  <Icon name='checkmark' color='#484b5e' />
-                </button>
-              </li>
-              <li className='delete'>
-                <button
-                  onClick={() => {
-                    navigate("/dashboard");
-                    deleteHabit();
-                  }}
-                >
-                  delete
-                </button>
-              </li>
-              <li className='edit'>
-                <button onClick={() => navigate(`/dashboard/${id}`)}>
-                  edit
-                </button>
-              </li>
-            </ul>
+          {slide.map(
+            ({ item, key, props }) =>
+              item && (
+                <animated.ul key={key} style={props} className='options-list'>
+                  <li className='complete'>
+                    <button onClick={handleCompleteHabit}>
+                      <Icon name='checkmark' color='#fff' />
+                    </button>
+                  </li>
+                  <li className='edit'>
+                    <button onClick={() => navigate(`/dashboard/${id}`)}>
+                      <Icon name='edit' color='#fff' />
+                    </button>
+                  </li>
+                  <li className='delete'>
+                    <button
+                      onClick={() => {
+                        navigate("/dashboard");
+                        deleteHabit();
+                      }}
+                    >
+                      <Icon name='delete' color='#fff' />
+                    </button>
+                  </li>
+                </animated.ul>
+              )
           )}
         </div>
       </animated.div>

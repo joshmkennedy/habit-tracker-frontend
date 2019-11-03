@@ -217,6 +217,16 @@ h2.error + p {
 //--/--/--/--/--/--/--/--/--/--/--//
 //?Habit Single
 //--/--/--/--/--/--/--/--/--/--/--//
+.habit-single__bg-text {
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
 .habit-single {
   background: #fff;
   &:nth-child(even) {
@@ -228,13 +238,15 @@ h2.error + p {
   &:not(:last-child) {
     border-bottom: 1px solid #f0f0f0;
   }
-  button {
+  button,
+  .habit-single__name {
     padding: 14px 8px;
     box-shadow: none;
     background: transparent;
   }
   .habit-single__name {
     width: 100%;
+
     text-align: left;
   }
 }
@@ -265,18 +277,42 @@ h2.error + p {
     font-weight: 600;
   }
 }
+//mobile
+.habit-list__container > div:not(.habit-list) {
+  //habit details container
+  @media (max-width: 763px) {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    .habit-single__details {
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-large);
+    }
+  }
+}
+//--/--/--/--/--/--/--/--/--/--/--/--/--/--/--/--/--//
 
 //options list
 .options {
   padding: 0;
   margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: auto;
 }
+
 .options-icon-wrapper {
   width: 20px;
-  height: 100%;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 .options-list {
   display: flex;
@@ -308,6 +344,6 @@ h2.error + p {
   }
 
   .checkmark {
-    width: 15px;
+    width: 24px;
   }
 }
