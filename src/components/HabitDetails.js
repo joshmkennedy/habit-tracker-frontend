@@ -130,7 +130,7 @@ const HabitDetails = ({ habit_id }) => {
     updateHabit();
   };
 
-  const [addNewHabit, { newHabit }] = useMutation(NEW_HABIT_MUTATION, {
+  const [addNewHabit] = useMutation(NEW_HABIT_MUTATION, {
     variables: {
       habit_name: habitDetails.habit_name,
       habit_should_remind: habitDetails.habit_should_remind,

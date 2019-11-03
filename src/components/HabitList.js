@@ -1,11 +1,5 @@
-/* 
-how to send a
-
-*/
-
 import React from "react";
 import Habit from "./Habit";
-import isCompletedToday from "./Dash";
 
 const HabitList = ({ showDone, habits, loading, filterFn }) => {
   return (

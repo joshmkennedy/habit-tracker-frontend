@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated, useTransition } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { navigate } from "@reach/router";
@@ -38,7 +38,7 @@ const Habit = ({
   times_completed,
 }) => {
   //* DELETE THE HABIT
-  const [deleteHabit, { error, loading }] = useMutation(DELETE_HABIT_MUTATION, {
+  const [deleteHabit] = useMutation(DELETE_HABIT_MUTATION, {
     variables: {
       habit_id: id,
     },
@@ -100,14 +100,42 @@ const Habit = ({
   // 1. Define the gesture
   const bind = useDrag(({ down, movement: [mx, my] }) => {
     set({
-      x: down && mx > 0 ? mx : 0,
+      x:
+        !isCompletedToday(
+          parseInt(times_completed[0] && times_completed[0].time)
+        ) &&
+        down &&
+        mx > 0
+          ? mx
+          : 0,
     });
 
     if (mx >= 150 && !down) {
       set({ x: 0 });
       return handleCompleteHabit();
     }
+    if (mx <= -150) {
+      setIsShowingOptions(true);
+    }
   });
+
+  //this checks to see if options are open and user clicks outside them it will close the options
+  const node = useRef();
+  useEffect(() => {
+    const handleClick = e => {
+      if (!node.current.contains(e.target)) {
+        if (isShowingOptions) {
+          setIsShowingOptions(false);
+        }
+      }
+    };
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, [isShowingOptions]);
 
   const slide = useTransition(isShowingOptions, null, {
     from: { transform: "translateX(100%)" },
@@ -134,13 +162,7 @@ const Habit = ({
         >
           <span className='habit-single__name'>{name}</span>
         </span>
-        <div
-          className='options'
-          onMouseEnter={() => setIsShowingOptions(true)}
-          onMouseLeave={() => setIsShowingOptions(false)}
-          /* onTouchStart={() => setIsShowingOptions(true)}
-          onTouchEnd={() => setIsShowingOptions(false)} */
-        >
+        <div ref={node} className='options'>
           {!isShowingOptions && (
             <span className='options-icon-wrapper'>
               <Icon color='#000' name='options' />
@@ -150,13 +172,27 @@ const Habit = ({
             ({ item, key, props }) =>
               item && (
                 <animated.ul key={key} style={props} className='options-list'>
-                  <li className='complete'>
-                    <button onClick={handleCompleteHabit}>
-                      <Icon name='checkmark' color='#fff' />
-                    </button>
-                  </li>
+                  {!isCompletedToday(
+                    times_completed[0] && parseInt(times_completed[0].time)
+                  ) && (
+                    <li className='complete'>
+                      <button
+                        onClick={() => {
+                          handleCompleteHabit();
+                          setIsShowingOptions(false);
+                        }}
+                      >
+                        <Icon name='checkmark' color='#fff' />
+                      </button>
+                    </li>
+                  )}
                   <li className='edit'>
-                    <button onClick={() => navigate(`/dashboard/${id}`)}>
+                    <button
+                      onClick={() => {
+                        navigate(`/dashboard/${id}`);
+                        setIsShowingOptions(false);
+                      }}
+                    >
                       <Icon name='edit' color='#fff' />
                     </button>
                   </li>

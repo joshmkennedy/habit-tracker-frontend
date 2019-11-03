@@ -42,7 +42,7 @@ const Icon = ({ name, color }) => {
           className='checkmark'
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 52 52'
-          stroke-width='3 '
+          strokeWidth='3 '
         >
           <circle
             className='checkmark__circle'
@@ -81,8 +81,8 @@ const Icon = ({ name, color }) => {
             <circle
               fill='none'
               stroke={color}
-              stroke-width='40'
-              stroke-miterlimit='10'
+              strokeWidth='40'
+              strokeMiterlimit='10'
               cx='354.5'
               cy='354.5'
               r='342'
@@ -96,7 +96,7 @@ const Icon = ({ name, color }) => {
           className='checkmark'
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 52 52'
-          stroke-width='3 '
+          strokeWidth='3 '
         >
           <circle
             className='checkmark__circle'

@@ -2,14 +2,27 @@
 /*?APP STYLES */
 /***/
 
+$main-color: #010c2c;
+$space-gray: #484b5e;
+$error-color: #ee6161;
+$bg: #f9f9f9;
+$body-max-width: 1100px;
+$shadow-input: 0 2px 8px rgba(0, 0, 0, 0.19);
+$shadow-input--focus: 0 2px 14px rgba(0, 0, 0, 0.19);
+$shadow-small: 0 2px 5px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 50px 100px rgba(50, 50, 93, 0.07),
+  0 15px 35px rgba(50, 50, 93, 0.09), 0 5px 15px rgba(0, 0, 0, 0.05);
+$shadow-large: 0 50px 100px rgba(50, 50, 93, 0.17),
+  0 15px 35px rgba(50, 50, 93, 0.19), 0 5px 15px rgba(0, 0, 0, 0.15);
+
 :root {
   --main-color: #010c2c;
   --space-gray: #484b5e;
   --error-color: #ee6161;
   --bg: #f9f9f9;
   --body-max-width: 1100px;
-  --shadow-input: 0 2px 8px rgb(0, 0, 0, 0.19);
-  --shadow-input--focus: 0 2px 14px rgb(0, 0, 0, 0.19);
+  --shadow-input: 0 2px 8px rgba(0, 0, 0, 0.19);
+  --shadow-input--focus: 0 2px 14px rgba(0, 0, 0, 0.19);
   --shadow-small: 0 2px 5px rgb(0, 0, 0, 0.1);
   --shadow-medium: 0 50px 100px rgba(50, 50, 93, 0.07),
     0 15px 35px rgba(50, 50, 93, 0.09), 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -19,7 +32,7 @@
 
 body {
   overflow-x: hidden;
-  background: var(--bg);
+  background: $bg;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -40,26 +53,26 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--main-color);
+  color: $main-color;
 }
 
 input,
 button,
 textarea {
   border: none;
-  box-shadow: var(--shadow-input);
+  box-shadow: $shadow-input;
 }
 input:focus,
 button:focus,
 textarea:focus {
   outline: none;
-  box-shadow: var(--shadow-input--focus);
+  box-shadow: $shadow-input--focus;
 }
 input:focus {
-  background: var(--bg);
+  background: $bg;
 }
 button {
-  background: var(--main-color);
+  background: $main-color;
   border: none;
   color: #fff;
   padding: 10px 15px;
@@ -74,6 +87,7 @@ input {
   width: 100%;
   margin-bottom: 20px;
   padding: 10px;
+  border: 0.3px solid #efefef;
 }
 ul {
   padding: 0;
@@ -84,12 +98,12 @@ ul {
   padding: 10px 20px;
 }
 .container {
-  max-width: var(--body-max-width);
+  max-width: $body-max-width;
   margin: 0 auto;
 }
 
 .error {
-  color: var(--error-color);
+  color: $error-color;
 }
 h2.error {
   margin-bottom: 10px;
@@ -111,7 +125,7 @@ h2.error + p {
   text-decoration: none;
 }
 .logo h1 {
-  color: var(--space-gray);
+  color: $space-gray;
 }
 
 .app-header h1 {
@@ -124,7 +138,7 @@ h2.error + p {
   margin-left: 30px;
 }
 .app-header nav a {
-  color: var(--space-gray);
+  color: $space-gray;
   text-decoration: none;
 }
 
@@ -142,12 +156,16 @@ h2.error + p {
   padding: 20px;
   width: 290px;
   padding-bottom: 30px;
-  box-shadow: var(--shadow-medium);
+  box-shadow: $shadow-medium;
 }
 
 .login__card button {
   width: 100%;
 }
+
+//--/--/--/--/--/--/--/--/--/--/--//
+//?dashboard header
+//--/--/--/--/--/--/--/--/--/--/--//
 
 //--/--/--/--/--/--/--/--/--/--/--//
 //?habit dashboard layout
@@ -166,7 +184,7 @@ h2.error + p {
     padding: 20px;
     background: #fff;
     border-radius: 3px;
-    box-shadow: var(--shadow-small);
+    box-shadow: $shadow-small;
     label {
       display: block;
       margin-bottom: 20px;
@@ -188,7 +206,7 @@ h2.error + p {
   right: 20px;
   width: 55px;
   height: 55px;
-  box-shadow: var(--shadow-large);
+  box-shadow: $shadow-large;
   border-radius: 50%;
   z-index: 9999;
   span {
@@ -200,11 +218,20 @@ h2.error + p {
     line-height: 1;
   }
 }
+
+//--/--/--/--/--/--/--/--/--/--/--//
+//?dashboard header
+//--/--/--/--/--/--/--/--/--/--/--//
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 //--/--/--/--/--/--/--/--/--/--/--//
 //?Habit List
 //--/--/--/--/--/--/--/--/--/--/--//
 .habit-list__list {
-  box-shadow: var(--shadow-small);
+  box-shadow: $shadow-small;
   margin-bottom: 20px;
   overflow: hidden;
   //Done Items
@@ -252,7 +279,7 @@ h2.error + p {
 }
 //text style
 .habit-single__name span {
-  color: var(--main-color);
+  color: $main-color;
   text-transform: capitalize;
   letter-spacing: 0;
   font-size: 18px;
@@ -287,7 +314,7 @@ h2.error + p {
     .habit-single__details {
       max-width: 400px;
       margin: 0 auto;
-      box-shadow: var(--shadow-large);
+      box-shadow: $shadow-large;
     }
   }
 }
@@ -334,7 +361,7 @@ h2.error + p {
   }
   li.delete {
     button {
-      background: var(--error-color);
+      background: $error-color;
     }
   }
   li.complete {
