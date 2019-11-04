@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
-import dotenv from "dotenv";
 
 import { ApolloProvider } from "@apollo/react-hooks";
-
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-dotenv.config();
+require("dotenv").config();
+
+console.log(process.env.BACKEND_URL);
 const client = new ApolloClient({
-  uri: process.env.BACKEND_URL,
+  uri: `https://cryptic-thicket-42083.herokuapp.com/graphql`,
   request: operation => {
     const token = localStorage.getItem("token");
     operation.setContext({
