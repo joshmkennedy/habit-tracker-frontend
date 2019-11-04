@@ -149,7 +149,7 @@ const Habit = ({
       style={{
         background: x.interpolate({
           range: [0, 150],
-          output: ["white", "green"],
+          output: ["white", "#010c2c"],
           extrapolate: "clamp",
         }),
       }}

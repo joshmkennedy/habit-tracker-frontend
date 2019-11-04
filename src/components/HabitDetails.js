@@ -123,6 +123,9 @@ const HabitDetails = ({ habit_id }) => {
             .habit_created_at,
       },
     },
+    onCompleted(data) {
+      navigate(`/dashboard/`);
+    },
   });
 
   const handleUpdateHabit = e => {
@@ -157,7 +160,7 @@ const HabitDetails = ({ habit_id }) => {
       },
     },
     onCompleted(data) {
-      navigate(`/dashboard/${data.CreateHabit.habit_id}`);
+      navigate(`/dashboard/`);
     },
   });
   const handleNewHabit = e => {

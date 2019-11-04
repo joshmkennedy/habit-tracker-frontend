@@ -3,40 +3,54 @@ import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { Redirect, navigate } from "@reach/router";
 
-const Login = ({ loggedIn }) => {
-  const [formValue, setFormValue] = useState({ email: "", password: "" });
+const SignUp = () => {
+  const [formValue, setFormValue] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
   const handleInputChange = e => {
     console.log(formValue, e.target.name);
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
-  const [login, { data, loading, error }] = useMutation(
+  const [signup, { data, loading, error }] = useMutation(
     gql`
-      mutation LOGIN($user_email: String!, $user_password: String!) {
-        Login(user_email: $user_email, user_password: $user_password)
+      mutation SIGNUP(
+        $user_email: String!
+        $user_password: String!
+        $user_name: String!
+      ) {
+        SignUp(
+          user_email: $user_email
+          user_password: $user_password
+          user_name: $user_name
+        ) {
+          token
+        }
       }
     `,
     {
       variables: {
         user_email: formValue.email,
         user_password: formValue.password,
+        user_name: formValue.name,
       },
-      onCompleted({ Login }) {
-        if (Login === "oops") {
+      onCompleted({ SignUp }) {
+        if (SignUp === "oops") {
           return null;
         } else {
-          localStorage.setItem("token", Login);
+          localStorage.setItem("token", SignUp.token);
           navigate("/dashboard");
         }
       },
     }
   );
   if (data) console.log(data);
-  if (loggedIn) return <Redirect noThrow to='dashboard' />;
 
-  const handleLogin = e => {
+  const handleSignUp = e => {
     e.preventDefault();
-    login();
+    signup();
   };
   return (
     <div className='login__wrapper wrapper'>
@@ -59,13 +73,20 @@ const Login = ({ loggedIn }) => {
             error.message
           )
         ) : (
-          <h2>Login</h2>
+          <h2>Sign Up</h2>
         )}
         <form action=''>
           <input
             type='text'
-            name='email'
+            placeholder='name'
+            name='name'
+            value={formValue.name}
+            onChange={handleInputChange}
+          />
+          <input
+            type='text'
             placeholder='email'
+            name='email'
             value={formValue.email}
             onChange={handleInputChange}
           />
@@ -76,7 +97,7 @@ const Login = ({ loggedIn }) => {
             value={formValue.password}
             onChange={handleInputChange}
           />
-          <button type='submit' onClick={handleLogin}>
+          <button type='submit' onClick={handleSignUp}>
             submit
           </button>
         </form>
@@ -84,4 +105,4 @@ const Login = ({ loggedIn }) => {
     </div>
   );
 };
-export default Login;
+export default SignUp;

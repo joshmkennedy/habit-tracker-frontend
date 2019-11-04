@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Login from "./components/Login";
 import HabitDetails from "./components/HabitDetails";
 import Dash from "./components/Dash";
+import SignUp from "./components/SignUp";
 import "./App.scss";
 
 const ME_QUERY = gql`
@@ -37,7 +38,9 @@ function App() {
   }, [data]);
   if (error) {
     localStorage.removeItem("token");
-    navigate("/");
+    if (!error.message === "You are not logged in...") {
+      navigate("/");
+    }
   }
   return (
     <>
@@ -56,12 +59,16 @@ function App() {
             >
               {isLoggedIn ? <p>logout</p> : <p>login</p>}
             </Link>
+            {data && data.Me.user_name && (
+              <Link to='/dashboard'>Dashboard</Link>
+            )}
           </nav>
         </div>
       </header>
 
       {/*//? Routes */}
       <Router>
+        <SignUp path='/signup' />
         <Login path='/' />
         <Dash path='/dashboard'>
           <HabitDetails path='/new' />
