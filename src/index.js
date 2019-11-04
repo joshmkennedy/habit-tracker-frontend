@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
+import dotenv from "dotenv";
+
 import { ApolloProvider } from "@apollo/react-hooks";
 
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-
+dotenv.config();
 const client = new ApolloClient({
-  uri: "https://localhost:4000/graphql",
+  uri: process.env.BACKEND_URL,
   request: operation => {
     const token = localStorage.getItem("token");
     operation.setContext({
